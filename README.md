@@ -2,6 +2,8 @@
 
 주차장 무료 API를 활용하여 만든 개인프로젝트입니다.
 
+<img src="./result.png" width="50%"/>
+
 ## 작업내용
 
 - UI/UX 디자인
@@ -11,4 +13,5 @@
 
 ## 기술스택
 
-React, TypeScript, ReactKakaoMapSDK
+React, TypeScript, react-kakao-maps-sdk,  
+Redux-toolkit, Styled-components

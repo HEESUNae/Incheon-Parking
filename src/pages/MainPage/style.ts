@@ -80,7 +80,7 @@ export const StyledMainPage = styled.div`
       min-width: 100%;
     }
     .scroll {
-      height: calc(100vh - 443px);
+      height: calc(100vh - 415px);
     }
   }
 `;

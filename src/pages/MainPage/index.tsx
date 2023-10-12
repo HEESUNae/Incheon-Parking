@@ -25,7 +25,8 @@ const MainPage = () => {
   // store에 parkList info 값 저장
   const getDataStore = async () => {
     const infoData = await axiosApi.get(`/ParkingOperInfo?serviceKey=${API_KEY}&pageNo=1&numOfRows=20`);
-    const infoRes = infoData.data.response.body;
+
+    const infoRes = infoData.data.response?.body;
     dispatch(fetchParkInfo(infoRes.items));
     onViewMap(infoRes.items[0].name, infoRes.items[0].latitude, infoRes.items[0].longitude);
   };

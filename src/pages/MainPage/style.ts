@@ -54,7 +54,7 @@ export const StyledMainPage = styled.div`
   }
   .scroll {
     overflow-y: scroll;
-    height: calc(100vh - 75px + 40px);
+    height: calc(100vh - 75px - 40px);
   }
   .scroll::-webkit-scrollbar {
     width: 0;

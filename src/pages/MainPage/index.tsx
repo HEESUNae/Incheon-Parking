@@ -21,18 +21,18 @@ const MainPage = () => {
   const dispatch = useDispatch();
 
   const [mapPosition, setPosition] = useState<any>({ lat: 0, lng: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   // store에 parkList info 값 저장
   const getDataStore = async () => {
     const infoData = await axiosApi.get(`/ParkingOperInfo?serviceKey=${API_KEY}&pageNo=1&numOfRows=20`);
-
-    const infoRes = infoData.data.response?.body;
+    const infoRes = infoData.data.response.body;
     dispatch(fetchParkInfo(infoRes.items));
-    onViewMap(infoRes.items[0].name, infoRes.items[0].latitude, infoRes.items[0].longitude);
+    await onViewMap(infoRes.items[0].name, infoRes.items[0].latitude, infoRes.items[0].longitude);
   };
 
   // 지도보기
-  const onViewMap = (name: string, latitude: string, longitude: string) => {
+  const onViewMap = async (name: string, latitude: string, longitude: string) => {
     const obj = {
       name: name,
       lat: +latitude,
@@ -45,40 +45,48 @@ const MainPage = () => {
     getDataStore();
   }, []);
 
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 765 ? true : false);
+  }, [isMobile]);
+
   return (
     <StyledMainPage>
       <Layout>
-        <Map center={mapPosition} style={{ width: '100%', height: '320px' }} level={3}>
-          <MapMarker position={mapPosition}>
-            <div style={{ padding: '3px', color: '#000' }}>{mapPosition.name}</div>
-          </MapMarker>
-        </Map>
-        <p className="title">인천 주차장 현황</p>
-        <div className="scroll">
-          <table>
-            <tbody>
-              {info.map((park: any) => (
-                <tr className="park-list" key={park.parkID}>
-                  <td>
-                    <p className="park-name">{park.name}</p>
-                    <p>{park.addrDetail}</p>
-                    <p>전체 주차 면적 : {park.totalLots}</p>
-                  </td>
-                  <td>
-                    <p>{park.divCode === '1' ? '공영' : '민영'}</p>
-                  </td>
-                  <td>
-                    <Button
-                      onClick={() => onViewMap(park.name, park.latitude, park.longitude)}
-                      classStyle="park-map-btn"
-                      imgUrl={ImageStore.map}
-                      alt={'지도보기'}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="info-container">
+          <Map center={mapPosition} style={{ width: '100%', height: isMobile ? '300px' : '100%' }} level={3}>
+            <MapMarker position={mapPosition}>
+              <div style={{ padding: '3px', color: '#000' }}>{mapPosition.name}</div>
+            </MapMarker>
+          </Map>
+          <div className="list-container">
+            <p className="title">인천 주차장 현황</p>
+            <div className="scroll">
+              <table>
+                <tbody>
+                  {info.map((park: any) => (
+                    <tr className="park-list" key={park.parkID}>
+                      <td>
+                        <p className="park-name">{park.name}</p>
+                        <p>{park.addrDetail}</p>
+                        <p>전체 주차 면적 : {park.totalLots}</p>
+                      </td>
+                      <td>
+                        <p>{park.divCode === '1' ? '공영' : '민영'}</p>
+                      </td>
+                      <td>
+                        <Button
+                          onClick={() => onViewMap(park.name, park.latitude, park.longitude)}
+                          classStyle="park-map-btn"
+                          imgUrl={ImageStore.map}
+                          alt={'지도보기'}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </Layout>
     </StyledMainPage>

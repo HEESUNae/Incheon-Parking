@@ -2,11 +2,13 @@ import styled from 'styled-components';
 
 export const StyledMainPage = styled.div`
   .title {
-    padding: 1rem 0;
+    padding: 1rem;
     border-top: 0.1rem solid #ddd;
     border-bottom: 0.1rem solid #ddd;
     font-weight: 600;
     text-align: left;
+    height: 40px;
+    box-sizing: border-box;
   }
   table {
     width: 100%;
@@ -16,7 +18,7 @@ export const StyledMainPage = styled.div`
   }
   .park {
     &-list {
-      padding: 1.5rem 0;
+      padding: 1.5rem 1rem;
       border-bottom: 0.1rem solid #eee;
       display: flex;
       align-items: center;
@@ -52,10 +54,33 @@ export const StyledMainPage = styled.div`
   }
   .scroll {
     overflow-y: scroll;
-    height: fit-content;
-    height: calc(100vh - 443px);
+    height: calc(100vh - 75px + 40px);
   }
   .scroll::-webkit-scrollbar {
     width: 0;
+  }
+
+  .info-container {
+    display: flex;
+    flex-direction: row-reverse;
+    height: calc(100vh - 75px);
+    overflow: hidden;
+  }
+  .list-container {
+    width: 28%;
+    min-width: 34rem;
+  }
+
+  @media (max-width: 765px) {
+    .info-container {
+      display: block;
+    }
+    .list-container {
+      width: 100%;
+      min-width: 100%;
+    }
+    .scroll {
+      height: calc(100vh - 443px);
+    }
   }
 `;
